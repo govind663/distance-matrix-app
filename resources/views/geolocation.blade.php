@@ -11,11 +11,21 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjdh9j3kw9soFqzCEwljxL1nKKuffbbDg"></script> --}}
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjdh9j3kw9soFqzCEwljxL1nKKuffbbDg&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8oSMPlIxTGogXlw5PhfMxGOaPGgFCmvY&callback=initMap" async defer></script>
 
 </head>
 <body>
-    <div id="map"></div>
+    <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
+        <h1>Geolocation Tracking</h1>
+        <p>Please allow the browser to access your current location.</p>
+        <button onclick="getCurrentLocation()">Get Current Location</button>
+        <div id="currentLocation">
+            <p id="currentLocationText">
+                Current Location : <span id="currentLocationValue"></span>
+            </p>
+        </div>
+        <div id="map" class="absolute -bottom-16 -left-16 h-40 w-[calc(100%+8rem)] bg-gradient-to-b from-transparent via-white to-white dark:via-zinc-900 dark:to-zinc-900"></div>
+    </div>
     <script>
         let startMarker, endMarker;
 
@@ -117,6 +127,21 @@
                 });
             }
         }
+    </script>
+    {{-- getCurrentLocation --}}
+    <script>
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    };
+                    document.getElementById("currentLocationValue").textContent = JSON.stringify(pos);
+                });
+            }
+        }
+        getCurrentLocation();
     </script>
 </body>
 </html>
