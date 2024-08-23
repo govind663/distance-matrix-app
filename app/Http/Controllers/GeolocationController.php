@@ -18,25 +18,26 @@ class GeolocationController extends Controller
     public function getLocation(Request $request)
     {
         try {
-            $latitude = $request->input('lat');
-            $longitude = $request->input('lng');
 
-            // Validate coordinates
-            $validatedData = $request->validate([
-                'lat' => 'required',
-                'lng' => 'required',
+            // Validate the incoming data
+            $validated = $request->validate([
+                'start.lat' => 'required|numeric',
+                'start.lng' => 'required|numeric',
+                'end.lat' => 'required|numeric',
+                'end.lng' => 'required|numeric',
             ]);
 
-            // Process or store the coordinates
-            $coordinate = new Coordinate();
-            $coordinate->latitude = $latitude;
-            $coordinate->longitude = $longitude;
-            $coordinate->save();
+            // Store the data in the database
+            $location = new Coordinate();
+            $location->start_location = json_encode($validated['start']);
+            $location->end_location = json_encode($validated['end']);
+            $location->save();
 
             return response()->json([
-                'latitude' => $latitude,
-                'longitude' => $longitude
-            ]);
+                'message' => 'Data stored successfully',
+                'data' => $location,
+                'status' => 'success',
+            ], 200);
 
         } catch (\Exception $e) {
             Log::error($e->getMessage());
