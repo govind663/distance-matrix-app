@@ -41,7 +41,8 @@
                                 position: pos,
                                 map: map,
                                 title: "Start Location",
-                                draggable: true
+                                draggable: true,
+                                animation: google.maps.Animation.DROP,
                             });
 
                             // Add an event listener to update position on drag end
@@ -59,7 +60,8 @@
                                 position: pos,
                                 map: map,
                                 title: "End Location",
-                                draggable: true
+                                draggable: true,
+                                animation: google.maps.Animation.DROP
                             });
 
                             // Add an event listener to update position on drag end
