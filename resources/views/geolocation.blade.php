@@ -44,7 +44,7 @@
                         const locationRoute = "{{ route('geolocation') }}";
                         // Send location to the server by Route name
                         fetch(
-                            locationRoute, {
+                            'location', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
