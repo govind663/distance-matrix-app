@@ -9,8 +9,16 @@
         }
     </style>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjdh9j3kw9soFqzCEwljxL1nKKuffbbDg"></script>
-    {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjdh9j3kw9soFqzCEwljxL1nKKuffbbDg&libraries=marker"></script> --}}
+    <script>
+        // Define the route URL in a JavaScript variable
+        const locationRouteUrl = "{{ route('geolocation') }}";
+    </script>
+    {{-- <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjdh9j3kw9soFqzCEwljxL1nKKuffbbDg"></script> --}}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjdh9j3kw9soFqzCEwljxL1nKKuffbbDg&libraries=marker"></script>
+
+</head>
+<body onload="initMap()">
+    <div id="map"></div>
 
     <script>
         function initMap() {
@@ -41,15 +49,12 @@
                         infoWindow.open(map);
                         map.setCenter(pos);
 
-                        const locationRoute = "{{ route('geolocation') }}";
-                        // Send location to the server by Route name
-                        fetch(
-                            'location', {
+                        fetch(locationRouteUrl, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                                'X-Requested-With': 'XMLHttpRequest',  // For CSRF protection
+                                // 'X-Requested-With': 'XMLHttpRequest',  // For CSRF protection
                             },
                             body: JSON.stringify(pos),
                         });
@@ -75,9 +80,5 @@
             infoWindow.open(map);
         }
     </script>
-</head>
-<body onload="initMap()">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <div id="map"></div>
 </body>
 </html>
