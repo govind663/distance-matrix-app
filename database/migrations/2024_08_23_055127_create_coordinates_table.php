@@ -13,9 +13,15 @@ return new class extends Migration
     {
         Schema::create('coordinates', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id')->nullable();
             $table->json('start_location');
             $table->json('end_location');
-            $table->timestamps();
+            $table->integer('inserted_by')->nullable();
+            $table->timestamp('inserted_at')->nullable();
+            $table->integer('modified_by')->nullable();
+            $table->timestamp('modified_at')->nullable();
+            $table->integer('deleted_by')->nullable();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 
